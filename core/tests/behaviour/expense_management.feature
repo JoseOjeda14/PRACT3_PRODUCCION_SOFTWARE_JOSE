@@ -26,7 +26,32 @@ Feature: Gestión de gastos
     Then el total de dinero gastado debe ser 15 euros
 
   Scenario: Crear tres gastos diferentes que sumen 30 euros hace que el total sean 30 euros
+    Given un gestor de gastos vacío
+    When añado un gasto de 10 euros llamado Desayuno
+    And añado un gasto de 15 euros llamado Almuerzo
+    And añado un gasto de 5 euros llamado Cena
+    Then el total de dinero gastado debe ser 30 euros
 
   Scenario: Crear tres gastos de 10, 30, 30 euros y elimino el ultimo gasto la suma son 40 euros
+    Given un gestor de gastos vacío
+    When añado un gasto de 10 euros llamado Camiseta
+    And añado un gasto de 30 euros llamado Pantalón
+    And añado un gasto de 30 euros llamado Zapatos
+    And elimino el gasto con id 3
+    Then el total de dinero gastado debe ser 40 euros
 
-  Scenario: Crear tres gastos de 10, 30, 30 euros y elimino el ultimo gasto la suma son 40 euros
+  Scenario: Añadir varios gastos incrementa correctamente la cantidad de registros
+    Given un gestor de gastos vacío
+    When añado un gasto de 12 euros llamado Cine
+    And añado un gasto de 3 euros llamado Agua
+    Then debe haber 2 gastos registrados
+
+  Scenario: Eliminar el único gasto deja el total gastado en cero
+    Given un gestor con un gasto de 50 euros
+    When elimino el gasto con id 1
+    Then el total de dinero gastado debe ser 0 euros
+
+  Scenario: Añadir un gasto nuevo a un gestor que ya tenía uno previo suma los totales
+    Given un gestor con un gasto de 20 euros
+    When añado un gasto de 15 euros llamado Transporte
+    Then el total de dinero gastado debe ser 35 euros
